@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Modak&display=swap');
+
+:root[theme='light'] {
+  --background-color: #f9fbfd;
+  --border-color: #edf2f9;
+  --harsh-background: #ffffff;
+  --text-color-primary: #12263f;
+  --text-color-seccondary: #95aac9;
+  --hightlight-agressive: #d7e4f8;
+  --button-hover: #1862c6;
+}
+
+:root[theme='dark'] {
+  --background-color: #12263f;
+  --border-color: #1e3a5c;
+  --harsh-background: #152e4d;
+  --text-color-primary: #ffffff;
+  --text-color-seccondary: #95aac9;
+  --hightlight-agressive: #1e3a5c;
+  --button-hover: #ffffff;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+
+  overflow: hidden;
+
+  font-family: "Lato";
+
+  background-color: var(--background-color);
+  color: var(--text-color-primary);
+}
+
+button {
+  padding: 5px 10px 5px 10px;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
+
+  color: var(--text-color-primary);
+  border-radius: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+  color: var(--text-color-seccondary);
+  background-color: var(--background-color);
+}
+
+input {
+  background-color: var(--harsh-background);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--text-color-seccondary);
+}
+
+header {
+  position: absolute;
+  z-index: 999;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  top: 0;
+
+  width: 100%;
+  height: fit-content;
+
+  background-color: var(--harsh-background);
+  border: 1px solid var(--border-color);
+}
+
+header h1{
+  text-align: center;
+  font-size: 15px;
+}
+
+header p {
+  font-weight: 800;
+  opacity: 0.8;
+  font-size: 12px;
+  margin: 0;
+}
+
+.input_field {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  z-index: 950;
+
+  display: none;
+}
+
+.input_field > div {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+
+  padding: 15px;
+  border-radius: 5px;
+  background-color: var(--harsh-background);
+  color: var(--text-color-primary);
+  border: 1px solid var(--border-color);
+}
+
+.input_field > div > div {
+  margin-top: 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  border-radius: 5px;
+  padding: 15px;
+  height: 80%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.input_field > div *{
+  margin: 5px;
+}
+
+.active_pannel {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0,0,0,0.7);
+  backdrop-filter: blur(5px);
+}
+
+.choose_field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-content: center;
+  align-items: center;
+
+  height: 100%;
+}
+
+.choose_field * {
+  font-family: "Modak";
+  font-weight: 100;
+}
+
+.choose_field h2 {
+  font-size: 55px;
+  transition: .55s ease all;
+  display: flex;
+
+  height: 100%;
+
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+
+  margin: 0;
+
+  width: 50%;
+  text-align: center;
+} 
+
+ul {
+  background-color: var(--harsh-background);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin: 0;
+
+  list-style: none;
+  padding-left: 0;
+}
+
+#room_list li {
+  padding: 5px;
+  background-color: var(--background-color);
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+#room_list li:hover {
+  background-color: var(--border-color);
+  border-color: var(--border-color);
+  cursor: pointer;
+}
+
+.input_field > div > div > div > p {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.8;
+  margin-top: 20px;
+}
+
+/*
+.choose_field h2:first-of-type {
+  background: repeating-linear-gradient(
+    45deg,
+    #dd0000,
+    #dd0000 25px,
+    #ffffff 25px,
+    #ffffff 40px
+  );
+
+  backdrop-filter: blur(5px);
+}
+
+.choose_field h2:not(:first-of-type) {
+  background: repeating-linear-gradient(
+    -45deg,
+   #1793cb,
+   #1793cb 25px,
+    #ffffff 25px,
+    #ffffff 20px
+  );
+
+  backdrop-filter: blur(2px);
+}
+*/
+
+.choose_field h2:hover {
+  font-size: 100px;
+
+  cursor: pointer;
+}

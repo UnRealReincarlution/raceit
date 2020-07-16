@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race.it</title>
+</head>
+<body>
+    <header>
+      <h1>race.it</h1>
+    </header>
+
+    <div class="choose_field">
+      <h2 onclick="showHostOptions()">Host</h2>
+      <h2 onclick="showJoinOptions()">Join</h2>
+    </div>
+
+    <div class="input_field" id="host_game">
+      <div>
+        <h2>Host</h2>
+        <div>
+          <label for="game_name">Game Name</label>
+          <input placeholder="Game Name" name="game_name" id="room_name_choice">
+
+          <label for="your_name">Your Name</label>
+          <input placeholder="Your Name" name="your_name">
+        </div>
+
+        <button onclick="hostRace()">Host Race</button>
+      </div>
+    </div>
+
+    <div class="input_field" id="join_game">
+      <div>
+      <h2>Join</h2>
+        <div>
+          <label for="your_name">Your Name</label>
+          <input placeholder="Your Name" name="your_name">
+        <div>
+
+        <div style="margin: 0">
+          <ul id="room_list">
+          </ul>
+        </div>
+
+        <p><i>CLICK A RACE TO JOIN</i></p>
+      </div>
+  </div>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="script.js"></script>
+<link rel="stylesheet" href="main.css" type="text/css">
+</html>
