@@ -67,10 +67,16 @@ function showJoinOptions() {
 
 let loadRooms = (data) => {
   //console.log(data.message);
+  while(document.getElementById("room_list").firstChild){
+    document.getElementById("room_list").removeChild(document.getElementById("room_list").firstChild);
+  }
   data.message.forEach(element => {
     console.log(element);
 
     var room_element = document.createElement("li");
+        room_element.setAttribute('game-join', element);
+        room_element.setAttribute('onclick', `joinRace("${element}")`);
+
     var room_div = document.createElement("div");
 
     var room_name = document.createElement("p");
@@ -110,3 +116,15 @@ function toggleTheme() {
       localStorage.setItem('themeSwitch', 'light');
   }
 }
+
+$("#host_game").click(function(e) {
+  if($(e.target).is("#host_game")){
+    $("#host_game").removeClass("active_pannel");
+  }
+})
+
+$("#join_game").click(function(e) {
+  if($(e.target).is("#join_game")){
+    $("#join_game").removeClass("active_pannel");
+  }
+})
