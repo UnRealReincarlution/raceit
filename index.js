@@ -9,7 +9,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 rooms = [];
 
 io.on('connection', (socket) => {
-  console.log("User Connected");
+  //console.log(socket);
+  
+  var userId = "";
+  console.log(`User: ${userId} Connected`);
 
   socket.on('echo', (data) => {
 		socket.emit('echo', {
@@ -23,12 +26,15 @@ io.on('connection', (socket) => {
     socket.join(room);
     
     console.log(`Creating and Joining Room: ${room}`);
-    console.log(rooms); 
     rooms.push(room);
+    console.log(rooms);
+    console.log(io.nsps['/'].adapter.rooms); 
   });
 
   socket.on('join', (room, name) => {
     if(rooms.includes(room)) {
+      socket.join(room);
+    }else{
       socket.join(room);
     }
   });
@@ -40,6 +46,19 @@ io.on('connection', (socket) => {
 
       console.log("Get Rooms Request Recieved and Replied to");
       console.log(rooms); 
+  });
+
+  socket.on('getRoomMembers', (room_name) => {
+    console.log("Get Room Members Request Recieved and Replied to");
+    sockets = [];
+
+    for (socketID in io.nsps['/'].adapter.rooms[room_name].sockets) {
+      sockets.push(socketID);
+    }
+
+    socket.emit('postRoomMembers', {
+      message: sockets
+    });
   });
 
   function getAvaliableRooms() {

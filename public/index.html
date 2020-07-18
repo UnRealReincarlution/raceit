@@ -8,9 +8,19 @@
 <body>
     <header>
       <h1>race.it</h1>
+      <p id="game_name" class="hidden">game_name</p>
     </header>
 
-    <div class="choose_field">
+    <div id="race_div" class="hidden">
+      <div id="member_list">
+        <ul>
+            <li>Simon (You) <p><i>HOST</i></p></li>
+            <li>Carl</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="choose_field" class="choose_field">
       <h2 onclick="showHostOptions()">Host</h2>
       <h2 onclick="showJoinOptions()">Join</h2>
     </div>
@@ -32,7 +42,7 @@
 
     <div class="input_field" id="join_game">
       <div id="joiner">
-      <h2>Join</h2>
+        <h2>Join</h2>
         <div>
           <label for="your_name">Your Name</label>
           <input placeholder="Your Name" name="your_name">
@@ -45,7 +55,7 @@
 
         <p><i>CLICK A RACE TO JOIN</i></p>
       </div>
-  </div>
+    </div>
 </body>
 
 <script src="/socket.io/socket.io.js"></script>

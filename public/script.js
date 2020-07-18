@@ -21,10 +21,10 @@ $(document).ready(() => {
     const hosting = urlParams.get('hosting');
     console.log(hosting);
 
-    const room = urlParams.get('room');
+    const room = urlParams.get('room_name');
     console.log(room);
 
-    if(hosting == true || hosting == false){
+    if(hosting == 'true' || hosting == 'false'){
       joinRaceFunction(room);
     }
 
@@ -43,16 +43,24 @@ function hostRace() {
   console.log(room_name);
 
   socket.emit('create', room_name);
-  window.location.href = `race.html?hosting=true&room_name=${room_name}`; 
+  joinRaceFunction(room_name, true) 
 }
 
 function joinRace(room_name) {
-  window.location.href = `race.html?hosting=false&room_name=${room_name}`; 
+  socket.emit('join', room_name);
+  joinRaceFunction(room_name);
 }
 
-function joinRaceFunction(room_name) {
+function joinRaceFunction(room_name, hosting = false) {
   race_ = new race(room_name);
-  socket.emit(room_name, "Hey!");
+  $("#game_name").html(race_.getRoomName());
+
+  $("#choose_field").addClass("hidden");
+  $("#race_div").removeClass("hidden");
+  $(".input_field").removeClass("active_pannel");
+  $("game_name").removeClass("hidden");
+
+  socket.emit('getRoomMembers', room_name);
 }
 
 function showHostOptions() {
@@ -89,6 +97,7 @@ let loadRooms = (data) => {
 }
 
 let socket = io();
+
 socket.on('echo', (data) => {
   console.log('received echo', data)
 });
@@ -96,6 +105,10 @@ socket.on('echo', (data) => {
 socket.on('rooms', (data) => {
   console.log('recieved room data', data);
   loadRooms(data);
+});
+
+socket.on('postRoomMembers', (data) => {
+  console.log('recieved room person data', data);
 });
 
 function toggleTheme() {
