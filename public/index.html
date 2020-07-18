@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Race.it</title>
-</head>
-<body>
-    <header>
-      <h1>race.it</h1>
-      <p id="game_name" class="hidden">game_name</p>
-    </header>
 
-    <div id="race_div" class="hidden">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Race.it</title>
+</head>
+
+<body>
+	<header>
+		<h1 onclick="location.reload()">race.it</h1>
+		<p id="game_name" class="hidden">game_name</p>
+	</header>
+
+	<div id="race_div" class="hidden">
+    <div class="left_pannel">
       <div id="member_list">
-        <ul>
-            <li>Simon (You) <p><i>HOST</i></p></li>
-            <li>Carl</li>
+        <h2 id="member_list_title">Member List</h2>
+        <ul id="member_list_dump">
         </ul>
       </div>
     </div>
 
-    <div id="choose_field" class="choose_field">
-      <h2 onclick="showHostOptions()">Host</h2>
-      <h2 onclick="showJoinOptions()">Join</h2>
+    <div class="right_pannel">
+
     </div>
+	</div>
 
-    <div class="input_field" id="host_game">
-      <div id="hoster">
-        <h2>Host</h2>
-        <div>
-          <label for="game_name">Game Name</label>
-          <input placeholder="Game Name" name="game_name" id="room_name_choice">
+	<div id="choose_field" class="choose_field">
+		<h2 onclick="showHostOptions()">Host</h2>
+		<h2 onclick="showJoinOptions()">Join</h2>
+	</div>
 
-          <label for="your_name">Your Name</label>
-          <input placeholder="Your Name" name="your_name">
-        </div>
+	<div class="input_field" id="host_game">
+		<div id="hoster">
+			<h2>Host</h2>
+			<div>
+				<label for="game_name">Game Name</label>
+        <input placeholder="Game Name" name="game_name" id="room_name_choice">
+      </div>
 
         <button onclick="hostRace()">Host Race</button>
-      </div>
     </div>
+  </div>
 
     <div class="input_field" id="join_game">
       <div id="joiner">
         <h2>Join</h2>
-        <div>
-          <label for="your_name">Your Name</label>
-          <input placeholder="Your Name" name="your_name">
-        <div>
 
         <div style="margin: 0">
           <ul id="room_list">
           </ul>
+
+          <p><i>CLICK A RACE TO JOIN</i></p>
         </div>
 
-        <p><i>CLICK A RACE TO JOIN</i></p>
+        
       </div>
     </div>
 </body>
