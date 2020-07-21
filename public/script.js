@@ -10,9 +10,12 @@ class race {
   moveForward() {
     this.position++;
 
-    socket.to(this.room_name).emit('moving', {
-      position: this.position,
-      id: socket.id
+    socket.emit('moving', {
+      room: this.room_name,
+      data: {
+        position: this.position,
+        id: socket.id
+      }
     });
   }
 
@@ -22,6 +25,10 @@ class race {
 
   getNickName() {
     return this.nickname;
+  }
+
+  setHost(variable) {
+    this.hosting = variable;
   }
 }
 
@@ -42,6 +49,12 @@ socket.on('postRoomMembers', (data) => {
   loadMembers(data);
 });
 
+socket.on('updateCar', (data) => {
+  console.log(data);
+
+  renderGame(data);
+})
+
 $("#host_game").click(function(e) {
   if ($(e.target).is("#host_game")) {
     $("#host_game").removeClass("active_pannel");
@@ -53,6 +66,10 @@ $("#join_game").click(function(e) {
     $("#join_game").removeClass("active_pannel");
   }
 })
+
+$("#start_button").click((e) => {
+  initiateGame();
+});
 
 $(document).ready(() => {
   if (!localStorage.getItem('themeSwitch')) {
@@ -132,27 +149,67 @@ let loadRooms = (data) => {
 }
 
 async function loadMembers(data) {
+  loadInfo(data);
+  console.log(data);
+
   while (document.getElementById("member_list_dump").firstChild) {
     document.getElementById("member_list_dump").removeChild(document.getElementById("member_list_dump").firstChild);
   }
 
-  var user_count = data.length;
+  var user_count = data.message.length;
   var user_cap = 15;
   
   $("#member_list_title").html(`Member List  <i>${user_count}/${user_cap}</i>`);
+
+  race_.setHost(false);
 
   data.message.forEach(element => {
     var this_div = document.createElement("li");
 
         element.name = element.name.replace(/>/g,"&#62;");
         element.name = element.name.replace(/</g,"&#60;");
-      
-        this_div.innerHTML = element.name;
+
+        var div_text = document.createElement("p");
+            div_text.innerHTML = element.name;
+
+        if(socket.id == element.id) div_text.innerHTML += " (YOU) ";
+
         this_div.setAttribute('userid', element.id);
+        this_div.append(div_text);
+
+    if(element.hosting){
+      var this_new_div = document.createElement("h6");
+          this_new_div.innerHTML = "HOST";
+
+      this_div.append(this_new_div);
+    }
+
+    if(socket.id == element.id && element.hosting){
+      race_.setHost(true);
+    }
 
     $("#member_list_dump").append(this_div);
   });
 }
+
+function initiateGame() {
+  socket.emit('instigateGame');
+}
+
+function renderGame(data) {
+  console.log(data);
+
+  //Create All "p" elements with the format:
+  // [position] : [name] : [id] 
+  // e.g.
+  // 5 : Seb : ujLfph2ITfKxigKTAAAK
+
+  //$(`[carid=${data.id}]`)
+}
+
+socket.on('gameStart', (data) => {
+  renderGame(data);
+});
 
 function toggleTheme() {
   var darkThemeSel = localStorage.getItem('themeSwitch') === 'dark';

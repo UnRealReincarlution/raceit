@@ -220,6 +220,11 @@ ul {
   border-radius: 5px;
 
   margin: 5px;
+  display: flex;
+
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
 }
 
 #member_list_dump li:hover {
@@ -230,7 +235,11 @@ ul {
   cursor: pointer;
 }
 
-#member_list h2 {
+#member_list_dump > li > * {
+  margin: 0;
+}
+
+.pannel_type h2 {
   margin-left: 25px;
   margin-right: 25px;
 
@@ -252,7 +261,7 @@ ul {
   font-style: normal;
 }
 
-#member_list {
+.pannel_type {
   background-color: var(--harsh-background);
   border: 1px solid var(--border-color);
 
@@ -279,6 +288,9 @@ ul {
 
 .left_pannel {
   width: 30%;
+
+  display: flex;
+  flex-direction: column;
 } 
 
 .input_field > div > div > p {
@@ -319,4 +331,79 @@ ul {
   font-size: 100px;
 
   cursor: pointer;
+}
+
+.game_settings > div {
+  padding: 15px;
+  margin: 15px;
+  background-color: var(--background-color);
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.game_settings > div > div {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  margin-left: 15px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.game_settings > div > div > input {
+  margin-top: 0;
+}
+
+.game_settings > div > div > label {
+  font-size: 14px;
+  color: var(--text-color-seccondary);
+}
+
+.game_settings > div > a {
+  padding: 5px 10px 5px 10px;
+  background-color: var(--hightlight-agressive);
+  border-radius: 5px;
+  justify-self: baseline;
+  align-self: center;
+  width: 70%;
+  text-align: center;
+
+  flex: 0 1 auto;
+  height: fit-content;
+  margin: 15px;
+
+  color: var(--text-color-seccondary);
+  border: 1px solid var(--hightlight-agressive);
+}
+
+.game_settings > div > a:hover {
+  background-color: var(--border-color);
+  color: var(--text-color-primary);
+  
+  border: 1px solid var(--hightlight-agressive);
+  cursor: pointer;
+}
+
+.game_settings h4 {
+  opacity: 0.8;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-family: Lato;
+  color: var(--text-color-seccondary);
+  margin: 5px;
+}
+
+.right_pannel {
+  height: 100%;
+  width: 70%;
+
+  display: flex;
+  flex-direction: column;
 }

@@ -15,15 +15,41 @@
 
 	<div id="race_div" class="hidden">
     <div class="left_pannel">
-      <div id="member_list">
+      <div id="member_list" class="pannel_type">
         <h2 id="member_list_title">Member List</h2>
         <ul id="member_list_dump">
         </ul>
       </div>
+
+      <div class="game_settings pannel_type">
+        <h2 id="member_list_title">Settings</h2>
+
+        <div>
+          <h4>Track Length</h4>
+          <input placeholder="25" value="25">
+
+          <h4>Player Cap</h4>
+          <input placeholder="15" value="15">
+
+          <h4>Movement Type</h4>
+          <div>
+            <input type="radio" id="click_label" name="race_type" value="click">
+            <label for="click_label">Click</label>
+          </div>
+
+          <div>
+            <input type="radio" id="random_label" name="race_type" value="random">
+            <label for="random_label">Random</label>
+          </div>
+          <a class="active_button" id="start_button">Start!</a>
+        </div>
+      </div>
     </div>
 
     <div class="right_pannel">
-
+      <div id="game_view" class="pannel_type">
+        <p>gaaame</p>
+      </div>
     </div>
 	</div>
 

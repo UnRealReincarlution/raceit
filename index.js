@@ -10,7 +10,7 @@ rooms = [];
 connections = [];
 connection_index = [];
 
-io.on('connection', (socket) => {
+io.on('connection', (socket) => { 
   console.log(`+++++: ${socket.id} Connected`);
   socket.username = "deafult";
 
@@ -22,12 +22,20 @@ io.on('connection', (socket) => {
   });
 
   socket.on('echo', (data) => {
-    socket.to(data.room).emit('echo', {
+    io.in(data.room).emit('echo', {
       message: data.data
     });
 
-    console.log('Echoing', data.data);
+    console.log('Echoing', data.data, 'to ', data.room);
   });
+
+  socket.on('moving', (data) => {
+    io.in(data.room).emit('updateCar', {
+      message: data.data
+    });
+
+    console.log(`Car moved in room: ${data.room}, update recipircated.`);
+  })
 
   socket.on('create', (room, your_name) => {
     socket.join(room);
@@ -72,7 +80,7 @@ io.on('connection', (socket) => {
     sockets = [];
 
     for (socketID in io.nsps['/'].adapter.rooms[room_name].sockets) {
-      sockets.push({name: connections[connection_index.indexOf(socketID)].username, id: socketID});
+      sockets.push({name: connections[connection_index.indexOf(socketID)].username, id: socketID, hosting: connections[connection_index.indexOf(socketID)].host});
     }
 
     io.in(room_name).emit('postRoomMembers', {
