@@ -333,7 +333,7 @@ ul {
   cursor: pointer;
 }
 
-.game_settings > div {
+.pannel_type > div {
   padding: 15px;
   margin: 15px;
   background-color: var(--background-color);
@@ -344,6 +344,7 @@ ul {
 
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .game_settings > div > div {
@@ -365,6 +366,23 @@ ul {
   color: var(--text-color-seccondary);
 }
 
+.game_settings.active > div > a {
+  padding: 5px 10px 5px 10px;
+  background-color: var(--hightlight-agressive);
+  border-radius: 5px;
+  justify-self: baseline;
+  align-self: center;
+  width: 70%;
+  text-align: center;
+
+  flex: 0 1 auto;
+  height: fit-content;
+  margin: 15px;
+
+  color: var(--text-color-seccondary);
+  border: 1px solid var(--hightlight-agressive);
+}
+
 .game_settings > div > a {
   padding: 5px 10px 5px 10px;
   background-color: var(--hightlight-agressive);
@@ -382,12 +400,21 @@ ul {
   border: 1px solid var(--hightlight-agressive);
 }
 
-.game_settings > div > a:hover {
+.game_settings.active > div > a:hover {
   background-color: var(--border-color);
   color: var(--text-color-primary);
   
   border: 1px solid var(--hightlight-agressive);
   cursor: pointer;
+}
+
+.game_settings:not(.active):hover {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+}
+
+.game_settings:not(.active) input:hover {
+  cursor: not-allowed !important;
 }
 
 .game_settings h4 {
@@ -406,4 +433,35 @@ ul {
 
   display: flex;
   flex-direction: column;
+}
+
+.active #game_set *{
+  color: var(--text-color-primary) !important;
+}
+
+.car {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  width: 15%;
+  height: fit-content;
+  justify-content: space-between;
+}
+
+.car img {
+  height: 25px;
+}
+
+.car p {
+  padding: 5px;
+  background-color: var(--text-color-primary);
+  color: var(--background-color);
+
+  border-radius: 5px;
+  
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 50%;
 }

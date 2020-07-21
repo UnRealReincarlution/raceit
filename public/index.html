@@ -21,12 +21,12 @@
         </ul>
       </div>
 
-      <div class="game_settings pannel_type">
+      <div class="game_settings pannel_type" id="game_settings">
         <h2 id="member_list_title">Settings</h2>
 
-        <div>
+        <div id="game_set">
           <h4>Track Length</h4>
-          <input placeholder="25" value="25">
+          <input placeholder="25" value="25" id="track_length">
 
           <h4>Player Cap</h4>
           <input placeholder="15" value="15">
@@ -48,7 +48,18 @@
 
     <div class="right_pannel">
       <div id="game_view" class="pannel_type">
-        <p>gaaame</p>
+        <h2>Game</h2>
+
+        <div id="game_view_cars">
+        </div>
+      </div>
+
+      <div id="analysis_view" class="pannel_type">
+        <h2>Analysis</h2>
+        <!-- Poles, Positions (+Names)       -->
+        <div id="pole_positions" style="height: calc(100% - 24%); box-sizing: border-box;">
+
+        </div>
       </div>
     </div>
 	</div>

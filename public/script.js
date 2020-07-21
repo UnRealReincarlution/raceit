@@ -1,8 +1,9 @@
 class race {
-  constructor(room, name = "invalid", position = 0) {
+  constructor(room, name = "invalid", position = 0, track_length = 15) {
     this.position = position;
     this.room_name = room;
     this.nickname = name;
+    this.track_length = track_length;
 
     socket.emit('setUsername', name);
   }
@@ -10,11 +11,13 @@ class race {
   moveForward() {
     this.position++;
 
-    socket.emit('moving', {
+    socket.emit('echo', {
       room: this.room_name,
+      type: 'movement',
       data: {
         position: this.position,
-        id: socket.id
+        id: socket.id,
+        name: this.nickname
       }
     });
   }
@@ -30,9 +33,30 @@ class race {
   setHost(variable) {
     this.hosting = variable;
   }
+
+  getTrackLength(){
+    return this.track_length;
+  }
+
+  setTrackLength(length){
+    this.track_length = length;
+  }
+}
+
+class player {
+  constructor(name, id, position = 0){
+    this.name = name,
+    this.id = id,
+    this.position = position;
+  }
+
+  setPosition(position){
+    this.position = position;
+  }
 }
 
 let race_;
+let players = [];
 let socket = io();
 
 socket.on('echo', (data) => {
@@ -53,7 +77,13 @@ socket.on('updateCar', (data) => {
   console.log(data);
 
   renderGame(data);
-})
+});
+
+socket.on('movement', (data) => {
+  console.log(data);
+
+  updateRender(data);
+});
 
 $("#host_game").click(function(e) {
   if ($(e.target).is("#host_game")) {
@@ -149,7 +179,6 @@ let loadRooms = (data) => {
 }
 
 async function loadMembers(data) {
-  loadInfo(data);
   console.log(data);
 
   while (document.getElementById("member_list_dump").firstChild) {
@@ -164,6 +193,10 @@ async function loadMembers(data) {
   race_.setHost(false);
 
   data.message.forEach(element => {
+    var this_instance = players.findIndex(x => x.id === element.id);
+    console.log(this_instance, " - LOCATION OF ", element.name);
+    if(this_instance == -1) players.push(new player(element.name, element.id));
+
     var this_div = document.createElement("li");
 
         element.name = element.name.replace(/>/g,"&#62;");
@@ -186,6 +219,7 @@ async function loadMembers(data) {
 
     if(socket.id == element.id && element.hosting){
       race_.setHost(true);
+      $("#game_settings").addClass("active");
     }
 
     $("#member_list_dump").append(this_div);
@@ -193,7 +227,8 @@ async function loadMembers(data) {
 }
 
 function initiateGame() {
-  socket.emit('instigateGame');
+  socket.emit('instigateGame', {room: race_.getRoomName(), instigator: socket.id, track_length: $("#track_length").val()});
+  race_.setTrackLength($("#track_length").val());
 }
 
 function renderGame(data) {
@@ -205,6 +240,49 @@ function renderGame(data) {
   // 5 : Seb : ujLfph2ITfKxigKTAAAK
 
   //$(`[carid=${data.id}]`)
+
+  data.message.data.forEach(e => {
+    var user = document.createElement("div");
+
+    var users_image = document.createElement("img");
+        users_image.src = 'https://cdn.pixabay.com/photo/2014/04/03/10/03/race-car-309713_960_720.png';
+    
+    var users_name = document.createElement("p");
+        users_name.innerHTML = `${e.name} : ${e.position}`;
+
+    user.appendChild(users_name);
+    user.appendChild(users_image);
+    user.setAttribute("car-id", e.id);
+    user.classList.add("car");
+
+    document.getElementById("game_view_cars").appendChild(user);
+
+    var pole_user = document.createElement("p");
+        pole_user.innerHTML = `${e.position}:  ${e.name}`;
+        pole_user.setAttribute("pole-id", e.id);
+
+    document.getElementById("pole_positions").appendChild(pole_user);
+  });
+}
+
+function updateRender(data) {
+  console.log("UPDATING", data);
+
+  var this_instance = players.findIndex(x => x.id === data.message.id);
+  players[this_instance].setPosition(data.message.position);
+
+  players.sort((a, b) => {
+    return b.position - a.position;
+  });
+  
+  players.forEach((element, index) => {
+    var elem = $(`[pole-id="${element.id}"]`);
+        elem.css('order', index);
+        elem.text(`${index+1}: ${element.name}`);
+  });
+
+  $(`[car-id="${data.message.id}"] p`).text(`${data.message.name} : ${data.message.position}`);
+  $(`[car-id="${data.message.id}"]`).css('width', `${((data.message.position / race_.getTrackLength()) * 10) + 15}%`);
 }
 
 socket.on('gameStart', (data) => {
@@ -230,3 +308,6 @@ function toggleTheme() {
   }
 }
 
+window.onbeforeunload = function(e) {
+  return 'Are you sure you want to leave this page?  You will lose any unsaved data.';
+};
