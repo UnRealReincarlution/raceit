@@ -115,7 +115,7 @@ io.on('connection', (socket) => {
       }
 
       io.in(data.room).emit('gameStart', {
-        message: {text: 'The Game has started!', data: sockets}
+        message: {text: 'The Game has started!', data: sockets, track_length: data.track_length}
       });
     }else {
       console.log("GameStart Request Denied! - Insuffient Permissions");

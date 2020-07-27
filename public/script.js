@@ -4,22 +4,42 @@ class race {
     this.room_name = room;
     this.nickname = name;
     this.track_length = track_length;
+    this.finished = false;
 
     socket.emit('setUsername', name);
   }
 
   moveForward() {
-    this.position++;
+    if(this.position !== this.track_length * 10){
+      this.position++;
 
-    socket.emit('echo', {
-      room: this.room_name,
-      type: 'movement',
-      data: {
-        position: this.position,
-        id: socket.id,
-        name: this.nickname
-      }
-    });
+      socket.emit('echo', {
+        room: this.room_name,
+        type: 'movement',
+        data: {
+          position: this.position,
+          id: socket.id,
+          name: this.nickname
+        }
+      });
+    }else{
+      this.finish();
+    }
+  }
+
+  finish() {
+    if(this.position == this.track_length * 10){
+      this.finished = true;
+      socket.emit('echo', {
+        room: this.room_name,
+        type: 'finish',
+        data: {
+          position: this.position,
+          id: socket.id,
+          name: this.nickname
+        }
+      });
+    }
   }
 
   getRoomName() {
@@ -60,29 +80,36 @@ let players = [];
 let socket = io();
 
 socket.on('echo', (data) => {
-  console.log('received echo', data)
+  //console.log('received echo', data)
 });
 
 socket.on('rooms', (data) => {
-  console.log('recieved room data', data);
+  //console.log('recieved room data', data);
   loadRooms(data);
 });
 
 socket.on('postRoomMembers', (data) => {
-  console.log('recieved room person data', data);
+  //console.log('recieved room person data', data);
   loadMembers(data);
 });
 
 socket.on('updateCar', (data) => {
-  console.log(data);
-
+  //console.log(data);
   renderGame(data);
 });
 
 socket.on('movement', (data) => {
-  console.log(data);
-
+  //console.log(data);
   updateRender(data);
+});
+
+socket.on('finish', (data) => {
+  //console.log(data);
+  updateChallenger(data);
+});
+
+socket.on('gameStart', (data) => {
+  renderGame(data);
 });
 
 $("#host_game").click(function(e) {
@@ -101,6 +128,10 @@ $("#start_button").click((e) => {
   initiateGame();
 });
 
+$("#itterate_car_button").click((e) => {
+  race_.moveForward();
+});
+
 $(document).ready(() => {
   if (!localStorage.getItem('themeSwitch')) {
     document.documentElement.setAttribute('theme', 'light');
@@ -117,10 +148,16 @@ function users_name() {
 function hostRace() {
   let room_name = $("#room_name_choice").val();
   let user_name = users_name();
-  console.log(room_name);
+  //console.log(room_name);
 
   socket.emit('create', room_name);
   joinRaceFunction(room_name, user_name, true)
+}
+
+function updateChallenger(data) {
+  $(`[car-id="${data.message.id}"]`).css('width', `${((data.message.position / race_.getTrackLength()) * 10)}%`);
+
+  $(`[car-id="${data.message.id}"] p`).text(`⚐ ${data.message.name} has Finished! ⚐`);
 }
 
 function joinRace(room_name, user_name) {
@@ -157,7 +194,7 @@ let loadRooms = (data) => {
     document.getElementById("room_list").removeChild(document.getElementById("room_list").firstChild);
   }
   data.message.forEach(element => {
-    console.log(element);
+    //console.log(element);
 
     var room_element = document.createElement("li");
     room_element.setAttribute('game-join', element);
@@ -179,7 +216,7 @@ let loadRooms = (data) => {
 }
 
 async function loadMembers(data) {
-  console.log(data);
+  //console.log(data);
 
   while (document.getElementById("member_list_dump").firstChild) {
     document.getElementById("member_list_dump").removeChild(document.getElementById("member_list_dump").firstChild);
@@ -194,7 +231,7 @@ async function loadMembers(data) {
 
   data.message.forEach(element => {
     var this_instance = players.findIndex(x => x.id === element.id);
-    console.log(this_instance, " - LOCATION OF ", element.name);
+    //console.log(this_instance, " - LOCATION OF ", element.name);
     if(this_instance == -1) players.push(new player(element.name, element.id));
 
     var this_div = document.createElement("li");
@@ -232,7 +269,10 @@ function initiateGame() {
 }
 
 function renderGame(data) {
-  console.log(data);
+  //console.log("Rendering", data);
+  //console.log("Starting Game with track_length of " ,data.message.track_length);
+
+  race_.setTrackLength(data.message.track_length);
 
   //Create All "p" elements with the format:
   // [position] : [name] : [id] 
@@ -266,7 +306,7 @@ function renderGame(data) {
 }
 
 function updateRender(data) {
-  console.log("UPDATING", data);
+  //console.log("UPDATING", data);
 
   var this_instance = players.findIndex(x => x.id === data.message.id);
   players[this_instance].setPosition(data.message.position);
@@ -281,13 +321,13 @@ function updateRender(data) {
         elem.text(`${index+1}: ${element.name}`);
   });
 
-  $(`[car-id="${data.message.id}"] p`).text(`${data.message.name} : ${data.message.position}`);
-  $(`[car-id="${data.message.id}"]`).css('width', `${((data.message.position / race_.getTrackLength()) * 10) + 15}%`);
-}
+  $(`[car-id="${data.message.id}"] p`).text(`${data.message.name} (${data.message.position / 10})`);
+  $(`[car-id="${data.message.id}"]`).css('width', `${((data.message.position / race_.getTrackLength()) * 10)}%`);
 
-socket.on('gameStart', (data) => {
-  renderGame(data);
-});
+  if(data.message.position == race_.getTrackLength()){
+    race_.finish();
+  }
+}
 
 function toggleTheme() {
   var darkThemeSel = localStorage.getItem('themeSwitch') === 'dark';

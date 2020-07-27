@@ -463,5 +463,5 @@ ul {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 50%;
+  max-width: 50%;
 }
