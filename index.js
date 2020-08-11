@@ -10,6 +10,13 @@ rooms = [];
 connections = [];
 connection_index = [];
 
+let logger = () => {
+  console.log(rooms);
+  setTimeout(logger, 1000);
+}
+
+logger();
+
 // On new socket connection (new client)
 io.on('connection', (socket) => { 
   // Log the connection.
@@ -34,19 +41,22 @@ io.on('connection', (socket) => {
   // remove thier socket from the connection.
 
   socket.on('disconnecting', () => {
-    var rooms = Object.keys(io.sockets.adapter.rooms).filter(item => item!=socket.id);
+    var rooms_loc = Object.keys(io.sockets.adapter.rooms).filter(item => item!=socket.id);
 
-    if(rooms != null){
-      rooms.forEach(e => {
+    if(rooms_loc != null){
+      rooms_loc.forEach(e => {
         console.log('leaving ', e);
         socket.leave(e);
 
         if(!io.nsps['/'].adapter.rooms[e]){
-          let i = rooms.indexOf(e);
+          const i = rooms_loc.indexOf(e);
+          rooms_loc.splice(i,1);
+
+          const i2 = rooms.indexOf(e);
           rooms.splice(i,1);
 
           console.log('removing room', e);
-          console.log(rooms)
+          console.log(rooms);
         }
         
         getRoomMembersFunction(e);

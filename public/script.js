@@ -130,6 +130,8 @@ socket.on('finish', (data) => {
 
 // When game starts, update render
 socket.on('gameStart', (data) => {
+  console.log("Game Starting!");
+
   while(document.getElementById("game_view_cars").lastChild){
     if(document.getElementById("game_view_cars").lastChild.id !== "full_view"){
       document.getElementById("game_view_cars").removeChild(document.getElementById("game_view_cars").lastChild);
@@ -138,9 +140,9 @@ socket.on('gameStart', (data) => {
     }
   }
   
-  race_.inGame = !race_.inGame;
+  race_.inGame = true;
 
-  if(!race_.inGame) {
+  if(race_.inGame) {
     startTimer();
     race_.position = 0;
     
@@ -151,6 +153,10 @@ socket.on('gameStart', (data) => {
       }
     }, 1000);
   }
+});
+
+$("#theme_toggle").click(function(e) {
+  toggleTheme();
 });
 
 // Show host fragment.
