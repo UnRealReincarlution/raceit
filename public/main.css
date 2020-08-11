@@ -366,13 +366,30 @@ ul {
   color: var(--text-color-seccondary);
 }
 
-.game_settings.active > div > a {
+.game_settings.active #start_button {
   padding: 5px 10px 5px 10px;
   background-color: var(--hightlight-agressive);
   border-radius: 5px;
   justify-self: baseline;
   align-self: center;
-  width: 70%;
+  width: 100%;
+  text-align: center;
+
+  flex: 0 1 auto;
+  height: fit-content;
+  margin: 15px;
+
+  color: var(--text-color-primary);
+  border: 1px solid var(--hightlight-agressive);
+}
+
+.game_settings #start_button {
+  padding: 5px 10px 5px 10px;
+  background-color: var(--hightlight-agressive);
+  border-radius: 5px;
+  justify-self: baseline;
+  align-self: center;
+  width: 100%;
   text-align: center;
 
   flex: 0 1 auto;
@@ -383,24 +400,7 @@ ul {
   border: 1px solid var(--hightlight-agressive);
 }
 
-.game_settings > div > a {
-  padding: 5px 10px 5px 10px;
-  background-color: var(--hightlight-agressive);
-  border-radius: 5px;
-  justify-self: baseline;
-  align-self: center;
-  width: 70%;
-  text-align: center;
-
-  flex: 0 1 auto;
-  height: fit-content;
-  margin: 15px;
-
-  color: var(--text-color-seccondary);
-  border: 1px solid var(--hightlight-agressive);
-}
-
-.game_settings.active > div > a:hover {
+.game_settings.active #start_button:hover {
   background-color: var(--border-color);
   color: var(--text-color-primary);
   
@@ -436,7 +436,7 @@ ul {
 }
 
 .active #game_set *{
-  color: var(--text-color-primary) !important;
+  color: var(--text-color-primary);
 }
 
 .car {
@@ -464,4 +464,87 @@ ul {
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 50%;
+}
+
+#game_view_cars {
+  transition: .55s ease all;
+}
+
+#itterate_car_button {
+  padding: 5px 10px 5px 10px;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color-seccondary);
+
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  font-size: 35px;
+}
+
+#analysis_div {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+}
+
+#pole_positions p {
+  margin: 8px;
+}
+
+.full_view {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  background-color: var(--border-color);
+  border-radius: 5px;
+  color: var(--text-color-seccondary);
+
+  font-size: 35px;
+  font-weight: 900;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 50%;
+  background-color: var(--text-color-primary);
+  color: var(--background-color) !important;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+
+  position: absolute;
+  z-index: 1;
+  left: 105%;
+}
+
+.tooltip *:hover~.tooltiptext {
+  visibility: visible;
+}
+
+#this_tooltip {
+  width: 50%;
+}
+
+#this_tooltip .tooltiptext {
+  width: 50%;
+  background-color: var(--text-color-primary);
+  color: var(--background-color) !important;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  /* left: 105%; */
+  bottom: 105%;
+  left: -0%;
 }

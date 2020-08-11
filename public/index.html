@@ -26,11 +26,8 @@
 
         <div id="game_set">
           <h4>Track Length</h4>
-          <input placeholder="25" value="25" id="track_length">
-
-          <h4>Player Cap</h4>
-          <input placeholder="15" value="15">
-
+          <input placeholder="10" value="10" id="track_length">
+<!-- 
           <h4>Movement Type</h4>
           <div>
             <input type="radio" id="click_label" name="race_type" value="click">
@@ -41,7 +38,11 @@
             <input type="radio" id="random_label" name="race_type" value="random">
             <label for="random_label">Random</label>
           </div>
-          <a class="active_button" id="start_button">Start!</a>
+-->
+          <div class="tooltip">
+            <a class="active_button" id="start_button">Start Race!</a>
+            <span class="tooltiptext">As a host, you can click here to start the game!</span>
+          </div>
         </div>
       </div>
     </div>
@@ -51,16 +52,24 @@
         <h2>Game</h2>
 
         <div id="game_view_cars">
+          <div class="full_view" id="full_view">
+            <h1>Awaiting Host to start game</h1>
+          </div>
         </div>
 
-        <button class="" id="itterate_car_button">Move</button>
+        
       </div>
 
       <div id="analysis_view" class="pannel_type">
         <h2>Analysis</h2>
         <!-- Poles, Positions (+Names)       -->
-        <div id="pole_positions" style="height: calc(100% - 24%); box-sizing: border-box;">
+        <div id="analysis_div">
+          <div id="pole_positions" style="height: calc(100% - 24%); box-sizing: border-box; display: flex; flex-direction: column; "></div>
 
+          <div class="tooltip" id="this_tooltip">
+            <button class="" id="itterate_car_button">Move</button>
+            <span class="tooltiptext">Click Here to move your car!</span>
+          </div>
         </div>
       </div>
     </div>
@@ -79,7 +88,10 @@
         <input placeholder="Game Name" name="game_name" id="room_name_choice">
       </div>
 
+        
+
         <button onclick="hostRace()">Host Race</button>
+        
     </div>
   </div>
 
